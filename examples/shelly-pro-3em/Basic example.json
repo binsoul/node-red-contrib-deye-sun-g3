@@ -1,0 +1,113 @@
+[
+    {
+        "id": "cb1ca0c188996c27",
+        "type": "tab",
+        "label": "Deye SUN G3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6f0e5e5f5b3a6e1c",
+        "type": "inject",
+        "z": "cb1ca0c188996c27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "180",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "60",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "0ef36e7882fb416f"
+            ]
+        ]
+    },
+    {
+        "id": "87460323978de0eb",
+        "type": "debug",
+        "z": "cb1ca0c188996c27",
+        "name": "manual update",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "4c49ee2e6e67ed15",
+        "type": "debug",
+        "z": "cb1ca0c188996c27",
+        "name": "automatic update",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "0ef36e7882fb416f",
+        "type": "binsoul-deye-sun-g3",
+        "z": "cb1ca0c188996c27",
+        "outputProperty": "payload",
+        "outputTarget": "msg",
+        "deviceIp": "192.168.178.27",
+        "deviceSerialNumber": "3900163166",
+        "deviceTimeout": 30,
+        "updateMode": "never",
+        "updateFrequency": 5,
+        "name": "",
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "87460323978de0eb"
+            ]
+        ]
+    },
+    {
+        "id": "491277216960cdae",
+        "type": "binsoul-deye-sun-g3",
+        "z": "cb1ca0c188996c27",
+        "outputProperty": "payload",
+        "outputTarget": "msg",
+        "deviceIp": "192.168.178.27",
+        "deviceSerialNumber": "3900163166",
+        "deviceTimeout": 30,
+        "updateMode": "messages",
+        "updateFrequency": 5,
+        "name": "",
+        "x": 340,
+        "y": 200,
+        "wires": [
+            [
+                "4c49ee2e6e67ed15"
+            ]
+        ]
+    }
+]

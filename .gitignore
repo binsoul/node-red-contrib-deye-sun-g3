@@ -1,0 +1,4 @@
+.idea/
+.node-red/
+dist
+node_modules/

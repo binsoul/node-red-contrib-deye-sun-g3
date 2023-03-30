@@ -1,0 +1,83 @@
+{
+    "name": "@binsoul/node-red-contrib-deye-sun-g3",
+    "version": "0.0.1",
+    "description": "Retrieves data from a Deye SUN G3 micro inverter using the Solarman v5 protocol.",
+    "keywords": [
+        "node-red",
+        "device",
+        "Solarman v5",
+        "Deye SUN G3"
+    ],
+    "author": {
+        "name": "Sebastian Mößler",
+        "email": "s.moeszler@binsoul.de"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/binsoul/node-red-contrib-deye-sun-g3/issues"
+    },
+    "homepage": "https://github.com/binsoul/node-red-contrib-deye-sun-g3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/binsoul/node-red-contrib-deye-sun-g3.git"
+    },
+    "node-red": {
+        "version": ">=3.0.0",
+        "nodes": {
+            "binsoul-deye-sun-g3": "dist/deye-sun-g3/Node.js"
+        }
+    },
+    "scripts": {
+        "copy:icons": "copyfiles -u 1 ./src/**/*.{png,svg} ./dist/",
+        "copy:locales": "copyfiles -u 1 ./src/**/locales/**/* ./dist/",
+        "copy": "npm run copy:icons && npm run copy:locales",
+        "build:editor": "rollup --bundleConfigAsCjs -c rollup.config.js",
+        "build:editor:watch": "rollup --bundleConfigAsCjs -c rollup.config.js -w",
+        "build:runtime": "tsc -p tsconfig.json",
+        "build:runtime:watch": "tsc -p tsconfig.watch.json --watch --preserveWatchOutput",
+        "build": "rimraf dist && npm run copy && npm run build:editor && npm run build:runtime",
+        "test": "jest --forceExit --detectOpenHandles --colors",
+        "test:watch": "jest --forceExit --detectOpenHandles --watchAll",
+        "watch": "rimraf dist && npm run copy && concurrently --kill-others --names \"COPY,EDITOR,RUNTIME\" --prefix \"({name})\"  --prefix-colors \"yellow.bold,cyan.bold,greenBright.bold\" \"onchange -v src/**/*.png src/**/*.svg src/**/*.json -- npm run copy\" \"npm run build:editor:watch\" \"npm run build:runtime:watch\"",
+        "fix-style": "prettier --ignore-path .eslintignore --write \"**/*.{js,ts,md}\" && eslint --ext .js,.ts . --fix",
+        "server": "cross-env NODE_ENV=development \"nodemon --watch './dist' -e js,html,json --delay 3 --inspect node_modules/node-red/red.js --settings node-red.config.js\""
+    },
+    "files": [
+        "dist/*",
+        "examples/*",
+        "package.json",
+        "README.md",
+        "LICENSE.md"
+    ],
+    "devDependencies": {
+        "@rollup/plugin-typescript": "^11.0.0",
+        "@tsconfig/node14": "^1.0.3",
+        "@types/node": "^18.11.18",
+        "@types/node-red": "^1.2.1",
+        "@typescript-eslint/eslint-plugin": "^5.49.0",
+        "@typescript-eslint/parser": "^5.49.0",
+        "concurrently": "^7.6.0",
+        "copyfiles": "^2.4.1",
+        "cross-env": "^7.0.3",
+        "eslint": "^8.33.0",
+        "eslint-config-prettier": "^8.6.0",
+        "glob": "^8.1.0",
+        "node-red": "^3.0.2",
+        "nodemon": "^2.0.20",
+        "onchange": "^7.1.0",
+        "prettier": "^2.8.3",
+        "prettier-plugin-organize-imports": "^3.2.2",
+        "rimraf": "^4.1.2",
+        "rollup": "^3.12.0",
+        "tslib": "^2.5.0",
+        "typescript": "^4.9.4"
+    },
+    "dependencies": {
+        "@binsoul/node-red-bundle-processing": "^0.0.2",
+        "got": "^11.8.6",
+        "simple-statistics": "^7.8.2"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}

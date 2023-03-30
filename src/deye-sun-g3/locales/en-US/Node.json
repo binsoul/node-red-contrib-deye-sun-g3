@@ -1,0 +1,26 @@
+{
+    "binsoul-deye-sun-g3": {
+        "label": {
+            "output": "Output",
+            "deviceIp": "IP",
+            "deviceSerialNumber": "Serial number",
+            "deviceTimeout": "Number of minutes without response before device becomes unavailable",
+            "updateMode": "Update automatically",
+            "updateFrequency": "Number of minutes between updates"
+        },
+        "help": {
+            "output": "",
+            "deviceIp": "",
+            "deviceSerialNumber": "",
+            "deviceTimeout": "",
+            "updateMode": "",
+            "updateFrequency": ""
+        },
+        "option": {
+            "updateMode": {
+                "never": "Never",
+                "messages": "If no messages are received"
+            }
+        }
+    }
+}

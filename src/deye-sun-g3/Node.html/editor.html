@@ -1,0 +1,76 @@
+<script data-template-name="binsoul-deye-sun-g3" type="text/html">
+    <div class="binsoul-deye-sun-g3-wrapper">
+        <fieldset>
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.deviceIp">
+                <label for="node-input-deviceIp" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.deviceIp"></span>
+                </label>
+                <input type="text" id="node-input-deviceIp" class="binsoul-deye-sun-g3-input" />
+            </div>
+
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.deviceSerialNumber">
+                <label for="node-input-deviceSerialNumber" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.deviceSerialNumber"></span>
+                </label>
+                <input type="text" id="node-input-deviceSerialNumber" class="binsoul-deye-sun-g3-input" />
+            </div>
+
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.deviceTimeout">
+                <label for="node-input-deviceTimeout" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.deviceTimeout"></span>
+                </label>
+                <input type="text" id="node-input-deviceTimeout" class="binsoul-deye-sun-g3-input" />
+            </div>
+
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.updateMode">
+                <label for="node-input-updateMode" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.updateMode"></span>
+                </label>
+                <select id="node-input-updateMode" class="binsoul-deye-sun-g3-select">
+                    <option value="never" data-i18n="binsoul-deye-sun-g3.option.updateMode.never"></option>
+                    <option value="messages" data-i18n="binsoul-deye-sun-g3.option.updateMode.messages"></option>
+                </select>
+            </div>
+
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.updateFrequency">
+                <label for="node-input-updateFrequency" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.updateFrequency"></span>
+                </label>
+                <input type="number" min="1" id="node-input-updateFrequency" class="binsoul-deye-sun-g3-input">
+            </div>
+
+            <div class="form-row" data-i18n="[title]binsoul-deye-sun-g3.help.output">
+                <label for="node-input-outputProperty" class="binsoul-deye-sun-g3-label">
+                    <span data-i18n="binsoul-deye-sun-g3.label.output"></span>
+                </label>
+                <input type="hidden" id="node-input-outputTarget" />
+                <input type="text" id="node-input-outputProperty" class="binsoul-deye-sun-g3-input" />
+            </div>
+            <div class="form-row">
+                <label for="node-input-name" class="binsoul-deye-sun-g3-label">
+                    <i class="fa fa-tag"></i>
+                    <span data-i18n="node-red:common.label.name"></span>
+                </label>
+                <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name" class="binsoul-deye-sun-g3-input" />
+            </div>
+        </fieldset>
+    </div>
+
+    <style>
+        .binsoul-deye-sun-g3-wrapper {
+            width: 30rem;
+            min-width: 25rem;
+        }
+
+        .binsoul-deye-sun-g3-input {
+            min-width: 100%;
+        }
+
+        .binsoul-deye-sun-g3-label {
+            min-width: 100%;
+            font-weight: 700 !important;
+            font-size: calc(var(--red-ui-primary-font-size) - 1px) !important;
+            margin-bottom: 2px !important;
+        }
+    </style>
+</script>
