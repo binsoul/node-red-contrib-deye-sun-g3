@@ -1,5 +1,6 @@
 import { Action, InputDefinition, Output, OutputDefinition } from '@binsoul/node-red-bundle-processing';
 import * as net from 'net';
+import { NodeStatus } from 'node-red';
 import type { Configuration } from '../Configuration';
 import { DeyeRegisters } from '../DeyeRegisters';
 import { Modbus } from '../Modbus';
@@ -10,11 +11,13 @@ export class UpdateAction implements Action {
     private readonly configuration: Configuration;
     private readonly storage: Storage;
     private readonly outputCallback: () => void;
+    private readonly nodeStatusCallback: (status: NodeStatus) => void;
 
-    constructor(configuration: Configuration, storage: Storage, outputCallback: () => void) {
+    constructor(configuration: Configuration, storage: Storage, outputCallback: () => void, nodeStatusCallback: (status: NodeStatus) => void) {
         this.configuration = configuration;
         this.storage = storage;
         this.outputCallback = outputCallback;
+        this.nodeStatusCallback = nodeStatusCallback;
     }
 
     defineInput(): InputDefinition {
@@ -27,9 +30,10 @@ export class UpdateAction implements Action {
 
     execute(): Output {
         const client = new net.Socket();
-        client.setTimeout(10000);
+        client.setTimeout(5000);
 
         let hasConnected = false;
+        let errorMessage = '';
         let retryCount = 0;
 
         const slaveId = 1;
@@ -49,6 +53,7 @@ export class UpdateAction implements Action {
 
         const connectEventHandler = () => {
             hasConnected = true;
+            this.storage.setConnected();
             client.write(request);
         };
 
@@ -63,7 +68,11 @@ export class UpdateAction implements Action {
                 this.outputCallback();
             } catch (error) {
                 if (error instanceof Error) {
-                    this.storage.setDataError(error.message);
+                    this.nodeStatusCallback({
+                        fill: 'red',
+                        shape: 'dot',
+                        text: error.message,
+                    });
                 }
             }
 
@@ -71,12 +80,12 @@ export class UpdateAction implements Action {
         };
 
         const timeoutEventHandler = () => {
-            this.storage.setConnectionError('Connection timed out');
+            errorMessage = 'Connection timed out';
             client.end();
         };
 
-        const errorEventHandler = (err: Error) => {
-            this.storage.setConnectionError(err.message);
+        const errorEventHandler = (error: Error) => {
+            errorMessage = error.message;
             client.end();
         };
 
@@ -85,11 +94,27 @@ export class UpdateAction implements Action {
                 return;
             }
 
-            if (retryCount < 6) {
+            if (!this.storage.isAvailable()) {
+                this.nodeStatusCallback({
+                    fill: 'yellow',
+                    shape: 'dot',
+                    text: 'unavailable',
+                });
+            } else if (retryCount < 5) {
                 retryCount++;
+                this.nodeStatusCallback({
+                    fill: 'yellow',
+                    shape: 'dot',
+                    text: 'retry ' + retryCount,
+                });
+
                 setTimeout(makeConnection, 5000);
             } else {
-                this.outputCallback();
+                this.nodeStatusCallback({
+                    fill: 'red',
+                    shape: 'dot',
+                    text: errorMessage,
+                });
             }
         };
 
@@ -99,15 +124,14 @@ export class UpdateAction implements Action {
         client.on('error', errorEventHandler);
         client.on('close', closeEventHandler);
 
-        makeConnection();
-
-        const result = new Output();
-        result.setNodeStatus({
+        this.nodeStatusCallback({
             fill: 'yellow',
             shape: 'dot',
             text: 'updating',
         });
 
-        return result;
+        makeConnection();
+
+        return new Output();
     }
 }

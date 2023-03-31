@@ -2,7 +2,7 @@ import { Action, InputDefinition, Output, OutputDefinition } from '@binsoul/node
 import type { Configuration } from '../Configuration';
 import { Storage } from '../Storage';
 
-export class OutputAction implements Action {
+export class UnavailableAction implements Action {
     private readonly configuration: Configuration;
     private storage: Storage;
 
@@ -31,16 +31,22 @@ export class OutputAction implements Action {
     execute(): Output {
         const result = new Output();
 
+        this.storage.setAvailable(true);
+        this.storage.resetRuntime();
         const data = this.storage.getData();
-        if (data !== null) {
-            result.setValue('output', data);
+        this.storage.setAvailable(false);
 
-            result.setNodeStatus({
-                fill: 'green',
-                shape: 'dot',
-                text: `${data.output.power} W`,
-            });
+        if (data !== null) {
+            data.isAvailable = false;
+
+            result.setValue('output', data);
         }
+
+        result.setNodeStatus({
+            fill: 'yellow',
+            shape: 'dot',
+            text: 'unavailable',
+        });
 
         return result;
     }

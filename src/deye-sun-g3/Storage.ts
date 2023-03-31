@@ -9,14 +9,12 @@ export class Storage {
     private configuration: Configuration;
 
     private updating = false;
-    private connectionError: string | null = null;
-    private dataError: string | null = null;
+    private connected = false;
 
-    private data: RegisterValues | null = null;
+    private lastConnectionAt: number | null = null;
     private lastDataAt: number | null = null;
-    private lastConnectionErrorAt: number | null = null;
-    private lastDataErrorAt: number | null = null;
     private available = true;
+    private data: RegisterValues | null = null;
 
     constructor(configuration: Configuration) {
         this.configuration = configuration;
@@ -28,47 +26,20 @@ export class Storage {
 
     public setUpdating(value: boolean) {
         this.updating = value;
+        if (value) {
+            this.connected = false;
+        }
     }
 
-    public getConnectionError(): string | null {
-        return this.connectionError;
-    }
-
-    public setConnectionError(value: string | null) {
-        this.connectionError = value;
-        this.lastConnectionErrorAt = Date.now();
-    }
-
-    public getDataError(): string | null {
-        return this.dataError;
-    }
-
-    public setDataError(value: string | null) {
-        this.dataError = value;
-        this.lastDataErrorAt = Date.now();
+    public setConnected() {
+        this.connected = true;
+        this.lastConnectionAt = Date.now();
+        this.available = true;
     }
 
     public getData(): NodeOutput | null {
-        if (this.data === null || this.dataError !== null || !this.available) {
+        if (this.data === null || !this.available) {
             return null;
-        }
-
-        if (this.connectionError && this.lastConnectionErrorAt && Date.now() - this.lastConnectionErrorAt > this.configuration.deviceTimeout * 60 * 1000) {
-            this.available = false;
-            this.data.pv1Voltage = 0;
-            this.data.pv1Current = 0;
-            this.data.pv2Voltage = 0;
-            this.data.pv2Current = 0;
-            this.data.pv3Voltage = 0;
-            this.data.pv3Current = 0;
-            this.data.pv4Voltage = 0;
-            this.data.pv4Current = 0;
-            this.data.acFrequency = 0;
-            this.data.acPower = 0;
-            this.data.acVoltage = 0;
-            this.data.acCurrent = 0;
-            this.data.uptime = 0;
-            this.data.operatingPower = 0;
         }
 
         const pv1 = {
@@ -129,8 +100,6 @@ export class Storage {
     public setData(data: RegisterValues) {
         this.data = data;
         this.lastDataAt = Date.now();
-        this.connectionError = null;
-        this.dataError = null;
         this.available = true;
     }
 
@@ -141,6 +110,25 @@ export class Storage {
             this.data.pv3TotalEnergyToday = 0;
             this.data.pv4TotalEnergyToday = 0;
             this.data.totalEnergyToday = 0;
+        }
+    }
+
+    public resetRuntime(): void {
+        if (this.data !== null) {
+            this.data.pv1Voltage = 0;
+            this.data.pv1Current = 0;
+            this.data.pv2Voltage = 0;
+            this.data.pv2Current = 0;
+            this.data.pv3Voltage = 0;
+            this.data.pv3Current = 0;
+            this.data.pv4Voltage = 0;
+            this.data.pv4Current = 0;
+            this.data.acFrequency = 0;
+            this.data.acPower = 0;
+            this.data.acVoltage = 0;
+            this.data.acCurrent = 0;
+            this.data.uptime = 0;
+            this.data.operatingPower = 0;
         }
     }
 
