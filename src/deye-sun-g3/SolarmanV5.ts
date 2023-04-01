@@ -72,14 +72,18 @@ export class SolarmanV5 {
         return frame;
     }
 
-    public unwrapModbusFrame(solarmanFrame: Buffer): Buffer {
-        const frameLength = solarmanFrame.length;
+    public unwrapModbusFrame(solarmanFrame: Buffer, ignoreProtocolErrors: boolean): Buffer {
+        let frameLength = solarmanFrame.length;
         const payloadLength = solarmanFrame.readUInt16LE(1);
 
         const headerLength = 13;
 
         if (frameLength !== headerLength + payloadLength) {
-            throw new Error('Frame length does not match payload length.');
+            if (!ignoreProtocolErrors) {
+                throw new Error('Frame length does not match payload length.');
+            }
+
+            frameLength = headerLength + payloadLength;
         }
 
         if (solarmanFrame[0] !== this.frameStart.readUInt8() || solarmanFrame[frameLength - 1] !== this.frameEnd.readUInt8()) {
@@ -91,7 +95,9 @@ export class SolarmanV5 {
         }
 
         if (solarmanFrame[5] !== this.sequenceNumber) {
-            throw new Error('Frame contains invalid sequence number.');
+            if (!ignoreProtocolErrors) {
+                throw new Error('Frame contains invalid sequence number.');
+            }
         }
 
         if (solarmanFrame.subarray(7, 11).toString() !== this.frameLoggerSerial.toString()) {

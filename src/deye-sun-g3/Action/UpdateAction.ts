@@ -59,7 +59,7 @@ export class UpdateAction implements Action {
 
         const dataEventHandler = (data: Buffer) => {
             try {
-                const modbusFrame = solarman.unwrapModbusFrame(data);
+                const modbusFrame = solarman.unwrapModbusFrame(data, true);
                 const values = modbus.readFC3(modbusFrame);
 
                 const parser = new DeyeRegisters();
