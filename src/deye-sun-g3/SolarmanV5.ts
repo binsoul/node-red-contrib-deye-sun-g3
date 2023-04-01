@@ -42,9 +42,13 @@ export class SolarmanV5 {
 
     private getNextSequenceNumber() {
         if (this.sequenceNumber === null) {
-            this.sequenceNumber = 1 + Math.floor(Math.random() * 254);
+            this.sequenceNumber = 1;
         } else {
-            this.sequenceNumber = (this.sequenceNumber + 1) & 0xff;
+            this.sequenceNumber++;
+        }
+
+        if (this.sequenceNumber > 255) {
+            this.sequenceNumber = 1;
         }
 
         return this.sequenceNumber;
