@@ -1,6 +1,6 @@
 {
     "name": "@binsoul/node-red-contrib-deye-sun-g3",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Retrieves data from a Deye SUN G3 micro inverter using the Solarman v5 protocol.",
     "keywords": [
         "node-red",
