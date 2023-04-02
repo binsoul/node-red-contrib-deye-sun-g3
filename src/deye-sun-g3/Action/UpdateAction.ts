@@ -1,10 +1,10 @@
 import { Action, InputDefinition, Output, OutputDefinition } from '@binsoul/node-red-bundle-processing';
+import { ModbusRtu } from '@binsoul/nodejs-modbus';
+import { SolarmanV5 } from '@binsoul/nodejs-solarman';
 import * as net from 'net';
 import { NodeStatus } from 'node-red';
 import type { Configuration } from '../Configuration';
 import { DeyeRegisters } from '../DeyeRegisters';
-import { Modbus } from '../Modbus';
-import { SolarmanV5 } from '../SolarmanV5';
 import { Storage } from '../Storage';
 
 export class UpdateAction implements Action {
@@ -36,14 +36,14 @@ export class UpdateAction implements Action {
         let errorMessage = '';
         let retryCount = 0;
 
-        const slaveId = 1;
-        const dataAddressFrom = 0x0003;
-        const dataAddressTo = 0x0080;
+        const unitAddress = 1;
+        const firstRegister = 0x0003;
+        const lastRegister = 0x0080;
 
-        const modbus = new Modbus();
-        const modbusFrame = modbus.writeFC3(slaveId, dataAddressFrom, dataAddressTo);
+        const modbus = new ModbusRtu(unitAddress);
+        const modbusFrame = modbus.requestHoldingRegisters(firstRegister, lastRegister);
 
-        const solarman = new SolarmanV5(this.configuration.deviceSerialNumber);
+        const solarman = new SolarmanV5(this.configuration.deviceSerialNumber, true);
         const request = solarman.wrapModbusFrame(modbusFrame);
 
         // Functions to handle socket events
@@ -59,8 +59,8 @@ export class UpdateAction implements Action {
 
         const dataEventHandler = (data: Buffer) => {
             try {
-                const modbusFrame = solarman.unwrapModbusFrame(data, true);
-                const values = modbus.readFC3(modbusFrame);
+                const modbusFrame = solarman.unwrapModbusFrame(data);
+                const values = modbus.fetchHoldingRegisters(modbusFrame);
 
                 const parser = new DeyeRegisters();
                 this.storage.setData(parser.parse(values));
