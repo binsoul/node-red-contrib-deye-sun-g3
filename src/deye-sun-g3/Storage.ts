@@ -98,6 +98,11 @@ export class Storage {
     }
 
     public setData(data: RegisterValues) {
+        if (this.data !== null && this.data.totalEnergy > data.totalEnergy) {
+            // totalEnergy should always increase while the node is running
+            return;
+        }
+
         this.data = data;
         this.lastDataAt = Date.now();
         this.available = true;
