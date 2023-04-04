@@ -8,7 +8,7 @@ interface Definition {
 }
 
 export interface RegisterValues {
-    [key: string]: number | string;
+    [key: string]: number | string | null;
     id: string;
     statusCode: number;
     totalEnergy: number;
@@ -33,7 +33,7 @@ export interface RegisterValues {
     pv4Current: number;
     pv4TotalEnergy: number;
     pv4TotalEnergyToday: number;
-    temperature: number;
+    temperature: number | null;
     uptime: number;
     operatingPower: number;
 }

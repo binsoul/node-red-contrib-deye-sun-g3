@@ -31,5 +31,6 @@ export interface NodeOutput {
     pv4: PV;
     output: Output;
     counters: Counters;
+    temperature: number | null;
     isAvailable: boolean;
 }

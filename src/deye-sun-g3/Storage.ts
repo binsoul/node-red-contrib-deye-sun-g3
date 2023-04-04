@@ -93,6 +93,7 @@ export class Storage {
             pv4: pv4,
             output: output,
             counters: counters,
+            temperature: this.data.temperature,
             isAvailable: this.available,
         };
     }
@@ -134,6 +135,7 @@ export class Storage {
             this.data.acCurrent = 0;
             this.data.uptime = 0;
             this.data.operatingPower = 0;
+            this.data.temperature = null;
         }
     }
 
