@@ -38,7 +38,7 @@ export class UpdateAction implements Action {
 
         const unitAddress = 1;
         const firstRegister = 0x0003;
-        const lastRegister = 0x0080;
+        const lastRegister = 0x007f;
 
         const modbus = new ModbusRtu(unitAddress);
         const modbusFrame = modbus.requestHoldingRegisters(firstRegister, lastRegister);
