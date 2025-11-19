@@ -21,4 +21,4 @@ const nodeInitializer: NodeInitializer = (RED): void => {
     RED.nodes.registerType('binsoul-deye-sun-g3', NodeConstructor);
 };
 
-export default nodeInitializer;
+export = nodeInitializer;
