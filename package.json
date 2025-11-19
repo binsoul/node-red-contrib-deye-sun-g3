@@ -1,6 +1,6 @@
 {
     "name": "@binsoul/node-red-contrib-deye-sun-g3",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "Retrieves data from a Deye SUN300/500/600/800/1000/2000G3 micro inverter using the Solarman v5 protocol.",
     "keywords": [
         "node-red",
@@ -39,7 +39,7 @@
         "test": "jest --forceExit --detectOpenHandles --colors",
         "test:watch": "jest --forceExit --detectOpenHandles --watchAll",
         "watch": "rimraf dist && npm run copy && concurrently --kill-others --names \"COPY,EDITOR,RUNTIME\" --prefix \"({name})\"  --prefix-colors \"yellow.bold,cyan.bold,greenBright.bold\" \"onchange -v src/**/*.png src/**/*.svg src/**/*.json -- npm run copy\" \"npm run build:editor:watch\" \"npm run build:runtime:watch\"",
-        "fix-style": "prettier --ignore-path .eslintignore --write \"**/*.{js,ts,md}\" && eslint --ext .js,.ts . --fix",
+        "fix-style": "prettier --write \"**/*.{js,ts,md}\" && eslint --ext .js,.ts . --fix",
         "server": "cross-env NODE_ENV=development \"nodemon --watch './dist' -e js,html,json --delay 3 --inspect node_modules/node-red/red.js --settings node-red.config.js\""
     },
     "files": [
@@ -50,34 +50,37 @@
         "LICENSE.md"
     ],
     "devDependencies": {
-        "@rollup/plugin-typescript": "^11.0.0",
-        "@tsconfig/node14": "^1.0.3",
-        "@types/node": "^18.11.18",
-        "@types/node-red": "^1.2.1",
-        "@typescript-eslint/eslint-plugin": "^5.49.0",
-        "@typescript-eslint/parser": "^5.49.0",
-        "concurrently": "^7.6.0",
+        "@eslint/eslintrc": "^3.3.1",
+        "@eslint/js": "^9.39.1",
+        "@rollup/plugin-typescript": "^12.3.0",
+        "@tsconfig/node18": "^18.2.6",
+        "@types/node": "^24.10.1",
+        "@types/node-red": "^1.3.5",
+        "@typescript-eslint/eslint-plugin": "^8.47.0",
+        "@typescript-eslint/parser": "^8.47.0",
+        "concurrently": "^9.2.1",
         "copyfiles": "^2.4.1",
-        "cross-env": "^7.0.3",
-        "eslint": "^8.33.0",
-        "eslint-config-prettier": "^8.6.0",
-        "glob": "^8.1.0",
-        "node-red": "^3.0.2",
-        "nodemon": "^2.0.20",
+        "cross-env": "^10.1.0",
+        "eslint": "^9.39.1",
+        "eslint-config-prettier": "^10.1.8",
+        "glob": "^12.0.0",
+        "globals": "^16.5.0",
+        "node-red": "^3.1.15",
+        "nodemon": "^3.1.11",
         "onchange": "^7.1.0",
-        "prettier": "^2.8.3",
-        "prettier-plugin-organize-imports": "^3.2.2",
-        "rimraf": "^4.1.2",
-        "rollup": "^3.12.0",
-        "tslib": "^2.5.0",
-        "typescript": "^4.9.4"
+        "prettier": "^3.6.2",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "rimraf": "^6.1.0",
+        "rollup": "^4.53.3",
+        "tslib": "^2.8.1",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
-        "@binsoul/node-red-bundle-processing": "^0.0.2",
-        "@binsoul/nodejs-modbus": "^0.0.1",
-        "@binsoul/nodejs-solarman": "^0.0.1"
+        "@binsoul/node-red-bundle-processing": "^0.1.0",
+        "@binsoul/nodejs-modbus": "^0.1.0",
+        "@binsoul/nodejs-solarman": "^0.1.0"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=18.0.0"
     }
 }
