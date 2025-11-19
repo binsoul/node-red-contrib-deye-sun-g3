@@ -1,6 +1,6 @@
-import { Configuration } from './Configuration';
-import { RegisterValues } from './DeyeRegisters';
-import { NodeOutput } from './NodeOutput';
+import { Configuration } from './Configuration.js';
+import { RegisterValues } from './DeyeRegisters.js';
+import { NodeOutput } from './NodeOutput.js';
 
 /**
  * Stores events and a history of past events.

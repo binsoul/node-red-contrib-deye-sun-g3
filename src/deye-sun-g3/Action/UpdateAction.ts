@@ -3,9 +3,9 @@ import { ModbusRtu } from '@binsoul/nodejs-modbus';
 import { SolarmanV5 } from '@binsoul/nodejs-solarman';
 import * as net from 'net';
 import { NodeStatus } from 'node-red';
-import type { Configuration } from '../Configuration';
-import { DeyeRegisters } from '../DeyeRegisters';
-import { Storage } from '../Storage';
+import type { Configuration } from '../Configuration.js';
+import { DeyeRegisters } from '../DeyeRegisters.js';
+import { Storage } from '../Storage.js';
 
 export class UpdateAction implements Action {
     private readonly configuration: Configuration;

@@ -1,5 +1,5 @@
-import { Configuration } from './Configuration';
-import type { UserConfiguration } from './UserConfiguration';
+import { Configuration } from './Configuration.js';
+import type { UserConfiguration } from './UserConfiguration.js';
 
 const getString = function (value: unknown, defaultValue: string): string {
     const result = value || defaultValue;
